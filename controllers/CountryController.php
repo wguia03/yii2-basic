@@ -4,6 +4,10 @@ namespace app\controllers;
 
 use app\models\Country;
 use app\models\CountrySearch;
+use Yii;
+use yii\base\InvalidCallException;
+use yii\helpers\Json;
+use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -116,6 +120,59 @@ class CountryController extends Controller
         return $this->redirect(['index']);
     }
 
+    public function actionDeleteButton($id)
+    {
+        $post = Yii::$app->request->post();
+
+        if (Yii::$app->request->isAjax) {
+
+            $id = $post['id'];
+
+            if ($this->findModel($id)->delete()) {
+
+                echo Json::encode([
+
+                    'success' => true,
+
+                    'messages' => [
+
+                        'kv-detail-info' => 'The book # ' . $id . ' was successfully deleted.' .
+
+                            Url::to(['/contactpersoon/index'])
+
+                    ]
+
+                ]);
+
+            } else {
+
+                echo Json::encode([
+
+                    'success' => false,
+
+                    'messages' => [
+
+                        'kv-detail-error' => 'Cannot delete the book # ' . $id . '.'
+
+                    ]
+
+                ]);
+
+            }
+
+            return ;
+
+        } else if (Yii::$app->request->post()) {
+
+            $this->findModel($id)->delete();
+
+            return $this->redirect(['index']);
+
+        }
+
+        throw new InvalidCallException("You are not allowed to do this operation. Contact the administrator.");
+    }
+
     /**
      * Finds the Country model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
@@ -131,4 +188,5 @@ class CountryController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
 }

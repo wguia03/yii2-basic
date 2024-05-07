@@ -41,6 +41,4 @@ $this->params['breadcrumbs'][] = $this->title;
             'showFooter' => false,
         ],
     ]); Pjax::end(); ?>
-
-
 </div>

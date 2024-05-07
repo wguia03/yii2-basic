@@ -3,6 +3,10 @@
 use yii\helpers\Html;
 use kartik\detail\DetailView;
 use yii\helpers\Url;
+use kartik\icons\Icon;
+use kartik\icons\FontAwesomeAsset;
+
+FontAwesomeAsset::register($this);
 
 /** @var yii\web\View $this */
 /** @var app\models\Country $model */
@@ -69,7 +73,18 @@ $attributes = [
     'footer' => '<div class="text-center text-muted">This is a sample footer message for the detail view.</div>'
     ],
     'deleteOptions'=>[ // your ajax delete parameters
-    'params' => ['id' => 1000, 'kvdelete'=>true],
+//        'params' => ['custom_param' => true, 'id' => $model->code],
+
+        'url' => ['delete', 'code' => $model->code],
+
+        'data' => [
+
+            'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
+
+            'method' => 'post',
+
+        ],
+
     ],
     'container' => ['id'=>'kv-demo'],
     'formOptions' => ['action' => Url::current(['#' => 'kv-demo'])] // your action to delete
