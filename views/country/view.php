@@ -2,7 +2,6 @@
 
 use yii\helpers\Html;
 use kartik\detail\DetailView;
-use yii\helpers\Url;
 use kartik\icons\Icon;
 use kartik\icons\FontAwesomeAsset;
 
@@ -10,6 +9,7 @@ FontAwesomeAsset::register($this);
 
 /** @var yii\web\View $this */
 /** @var app\models\Country $model */
+/** @var String $mode */
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Countries', 'url' => ['index']];
@@ -22,18 +22,18 @@ $attributes = [
     [
         'columns' => [
             [
-                'attribute'=>'code',
-                'valueColOptions'=>['style'=>'width:30%']
+                'attribute' => 'code',
+                'valueColOptions' => ['style' => 'width:30%']
             ],
             [
-                'attribute'=>'name',
-                'valueColOptions'=>['style'=>'width:30%']
+                'attribute' => 'name',
+                'valueColOptions' => ['style' => 'width:30%']
             ]
         ],
     ],
     [
-        'attribute'=>'population',
-        'valueColOptions'=>['style'=>'width:30%']
+        'attribute' => 'population',
+        'valueColOptions' => ['style' => 'width:30%']
     ],
 ];
 ?>
@@ -54,39 +54,30 @@ $attributes = [
     </p>
 
 
-<?php
+    <?php
     echo DetailView::widget([
-    'model' => $model,
-    'attributes' => $attributes,
-    'mode' => 'view',
-    'bordered' => true,
-    'striped' => true,
-    'condensed' => true,
-    'responsive' => true,
-    'hover' => true,
-    'hAlign'=>'left',
-    'vAlign'=>'middle',
-    'fadeDelay'=>false,
-    'panel' => [
-    'type' => 'primary',
-    'heading' => 'Countries',
-    'footer' => '<div class="text-center text-muted">This is a sample footer message for the detail view.</div>'
-    ],
-    'deleteOptions'=>[ // your ajax delete parameters
-//        'params' => ['custom_param' => true, 'id' => $model->code],
-
-        'url' => ['delete', 'code' => $model->code],
-
-        'data' => [
-
-            'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
-
-            'method' => 'post',
-
+        'model' => $model,
+        'mode' => $mode,
+        'attributes' => $attributes,
+        'bordered' => true,
+        'striped' => true,
+        'condensed' => true,
+        'responsive' => true,
+        'hover' => true,
+        'hAlign' => 'left',
+        'vAlign' => 'middle',
+        'fadeDelay' => false,
+        'panel' => [
+            'type' => 'primary',
+            'heading' => '<i class="fas fa-database"></i> Países',
+            'footer' => '<div class="text-center text-muted">This is a sample footer message for the detail view.</div>'
         ],
-
-    ],
-    'container' => ['id'=>'kv-demo'],
-    'formOptions' => ['action' => Url::current(['#' => 'kv-demo'])] // your action to delete
+        'saveOptions' => ['label' => Icon::show('save') . " Guardar"],
+        'updateOptions' => ['label' => Icon::show('edit') . " Editar"],
+        'deleteOptions' => [
+            'label' => Icon::show('trash') . " Borrar",
+            'url' => ['delete', 'code' => $model->code],
+            'confirm' => '¿Estás seguro que deseas eliminar este registro?',
+        ],
     ]); ?>
 </div>

@@ -63,18 +63,11 @@ $attributes = [
             'footer' => '<div class="text-center text-muted">This is a sample footer message for the detail view.</div>'
         ],
         'deleteOptions'=>[ // your ajax delete parameters
-//        'params' => ['custom_param' => true, 'id' => $model->code],
-
             'url' => ['delete', 'code' => $model->code],
-
             'data' => [
-
                 'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
-
                 'method' => 'post',
-
             ],
-
         ],
         'container' => ['id'=>'kv-demo'],
         'formOptions' => ['action' => Url::current(['#' => 'kv-demo'])] // your action to delete
