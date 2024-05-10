@@ -5,11 +5,15 @@
 
 use app\assets\AppAsset;
 use app\widgets\Alert;
+use kartik\icons\FontAwesomeAsset;
+use kartik\icons\Icon;
 use yii\bootstrap5\Breadcrumbs;
 use yii\bootstrap5\Html;
 use yii\bootstrap5\Nav;
 use yii\bootstrap5\NavBar;
 
+FontAwesomeAsset::register($this);
+Icon::map($this, Icon::FAS);
 AppAsset::register($this);
 
 $this->registerCsrfMetaTags();

@@ -18,7 +18,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php echo GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            [
+                'class' => 'yii\grid\SerialColumn',
+                'header' => 'N°',
+            ],
             'code',
             'name',
             'population',
@@ -35,18 +38,16 @@ $this->params['breadcrumbs'][] = $this->title;
         'condensed' => true,
         'floatHeader' => true,
         'panel' => [
-            'before'=> Html::a('<i class="glyphicon glyphicon-repeat"></i>Create New Row', ['create'], ['class' => 'btn btn-success']),
             'heading' => '<i class="fas fa-database"></i>  Países',
-            'type' => 'info',
+            'type' => 'primary',
             'showFooter' => false,
         ],
         'toolbar' => [
             [
                 'content' =>
-                    Html::button('<i class="fas fa-plus"></i>', [
+                    Html::a('<i class="fas fa-plus"></i>', ['create'], [ // Modificado aquí
                         'class' => 'btn btn-success',
                         'title' => 'Nuevo Pais',
-                        'onclick' => 'alert("This should launch the book creation form.\n\nDisabled for this demo!");'
                     ]) . ' ' .
                     Html::a('<i class="fas fa-redo"></i>', ['grid-demo'], [
                         'class' => 'btn btn-outline-secondary',

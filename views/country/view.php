@@ -42,18 +42,6 @@ $attributes = [
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Update', ['update', 'code' => $model->code], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'code' => $model->code], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
-
-
     <?php
     echo DetailView::widget([
         'model' => $model,
