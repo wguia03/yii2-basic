@@ -59,8 +59,18 @@ class CountryController extends Controller
      */
     public function actionView($code)
     {
+        $country = $this->findModel($code);
+
+        if ($this->request->isPost && $country->load($this->request->post())) {
+            if (!$country->save()) {
+                return $this->render('view', [
+                    'model' => $country, 'mode' => 'edit'
+                ]);
+            }
+        }
+
         return $this->render('view', [
-            'model' => $this->findModel($code),
+            'model' => $country, 'mode' => 'view'
         ]);
     }
 
@@ -81,28 +91,8 @@ class CountryController extends Controller
             $model->loadDefaultValues();
         }
 
-        return $this->render('create', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Updates an existing Country model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param string $code Code
-     * @return string|\yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionUpdate($code)
-    {
-        $model = $this->findModel($code);
-
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'code' => $model->code]);
-        }
-
-        return $this->render('update', [
-            'model' => $model,
+        return $this->render('view', [
+            'model' => $model, 'mode' => 'edit'
         ]);
     }
 
@@ -120,59 +110,6 @@ class CountryController extends Controller
         return $this->redirect(['index']);
     }
 
-    public function actionDeleteButton($id)
-    {
-        $post = Yii::$app->request->post();
-
-        if (Yii::$app->request->isAjax) {
-
-            $id = $post['id'];
-
-            if ($this->findModel($id)->delete()) {
-
-                echo Json::encode([
-
-                    'success' => true,
-
-                    'messages' => [
-
-                        'kv-detail-info' => 'The book # ' . $id . ' was successfully deleted.' .
-
-                            Url::to(['/contactpersoon/index'])
-
-                    ]
-
-                ]);
-
-            } else {
-
-                echo Json::encode([
-
-                    'success' => false,
-
-                    'messages' => [
-
-                        'kv-detail-error' => 'Cannot delete the book # ' . $id . '.'
-
-                    ]
-
-                ]);
-
-            }
-
-            return ;
-
-        } else if (Yii::$app->request->post()) {
-
-            $this->findModel($id)->delete();
-
-            return $this->redirect(['index']);
-
-        }
-
-        throw new InvalidCallException("You are not allowed to do this operation. Contact the administrator.");
-    }
-
     /**
      * Finds the Country model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
@@ -185,7 +122,6 @@ class CountryController extends Controller
         if (($model = Country::findOne(['code' => $code])) !== null) {
             return $model;
         }
-
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
